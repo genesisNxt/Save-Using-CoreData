@@ -20,7 +20,6 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
         tableView.dataSource = self
         tableView.delegate = self
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
-        // Do any additional setup after loading the view.
         loaditems()
     }
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -70,21 +69,38 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
         }
         self.tableView.reloadData()
     }
-    func loaditems() {
-        let request : NSFetchRequest<Company> = Company.fetchRequest()
+    func loaditems(with request: NSFetchRequest<Company> = Company.fetchRequest()) {
+        //let request : NSFetchRequest<Company> = Company.fetchRequest()
         do {
            companyName = try context.fetch(request)
         } catch {
             print("Error\(error)")
         }
+        tableView.reloadData()
     }
 }
 // MARK:- SearchBar
 extension ViewController : UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let request : NSFetchRequest<Company> = Company.fetchRequest()
-        print(searchBar.text!)
+        request.predicate = NSPredicate(format: "name CONTAINS[cd] %@", searchBar.text!)
+        request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        loaditems(with: request)
+//        do {
+//           companyName = try context.fetch(request)
+//        } catch {
+//            print("Error\(error)")
+//        }
+        tableView.reloadData()
     }
-    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text?.count == 0 {
+            loaditems()
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder()
+            }
+            
+        }
+    }
 }
 
