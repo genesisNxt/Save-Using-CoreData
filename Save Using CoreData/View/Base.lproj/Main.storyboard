@@ -7,10 +7,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Table View Controller-->
+        <!--Company Category Table View Controller-->
         <scene sceneID="MTH-xe-5pX">
             <objects>
-                <tableViewController id="vOx-3s-Edh" sceneMemberID="viewController">
+                <tableViewController id="vOx-3s-Edh" customClass="CompanyCategoryTableViewController" customModule="Save_Using_CoreData" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="ebF-ji-Sb1">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -30,9 +30,16 @@
                             <outlet property="delegate" destination="vOx-3s-Edh" id="hk2-IS-Fdt"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="kIj-Ut-Awx"/>
+                    <navigationItem key="navigationItem" id="kIj-Ut-Awx">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Fra-cU-hRb">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="addButtonPressed:" destination="vOx-3s-Edh" id="oo8-aW-8Tz"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="show" identifier="goTocompany" id="AQ9-ma-F5c"/>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="goToCompany" id="AQ9-ma-F5c"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2qn-bc-jtc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

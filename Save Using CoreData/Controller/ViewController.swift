@@ -13,14 +13,17 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
 
     var companyName = [Company]()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-
+    var selectedCategory : Category? {
+        didSet {
+        loaditems()
+        }
+    }
     @IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
-        loaditems()
     }
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -53,6 +56,7 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
             let newCompany = Company(context: self.context)
             newCompany.name = textField.text
             newCompany.done = false
+            newCompany.parentCategory = self.selectedCategory
             self.companyName.append(newCompany)
             self.saveItems()
             
@@ -86,11 +90,7 @@ extension ViewController : UISearchBarDelegate {
         request.predicate = NSPredicate(format: "name CONTAINS[cd] %@", searchBar.text!)
         request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         loaditems(with: request)
-//        do {
-//           companyName = try context.fetch(request)
-//        } catch {
-//            print("Error\(error)")
-//        }
+
         tableView.reloadData()
     }
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
